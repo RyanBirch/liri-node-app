@@ -3,6 +3,7 @@ const keys = require('./keys.js')
 const fs = require('fs')
 const Spotify = require('node-spotify-api')
 const axios = require('axios')
+const moment = require('moment')
 
 // access keys information
 const spotify = new Spotify(keys.spotify)
@@ -19,9 +20,20 @@ switch (command) {
         let artist = input
         let concertQuery = `https://rest.bandsintown.com/artists/${artist}/events?app_id=codingbootcamp`
         axios.get(concertQuery).then( response => {
-            console.log('venue name: ' + response.data[0].venue.name)
-            console.log('venue location: ' + response.data[0].venue.city + ', ' + response.data[0].venue.country)
+            // if the artist has upcoming concerts, log them to the console
+            if (response.data.length > 0) {
+                 response.data.forEach( item => {
+                     let venue = item.venue.name
+                     let location = item.venue.city + ', ' + item.venue.country
+                     let date = item.datetime
+                     let formattedDate = moment(date).format('L')
+                     console.log(`\nVenue: ${venue} \nLocation: ${location} \nDate: ${formattedDate} \n`)
+                 })
+            } else {
+                console.log(`\nNo upcoming concerts for ${artist}\n`)
+            }
         })
+
         break;
 
     case 'spotify-this-song':
