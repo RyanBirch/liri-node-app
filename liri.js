@@ -19,8 +19,7 @@ switch (command) {
         break;
 
     case 'spotify-this-song':
-
-
+        spotifyThisSong()
         break;
 
     case 'movie-this':
@@ -28,13 +27,13 @@ switch (command) {
         break;
 
     case 'do-what-it-says':
-
-
+        doWhatItSays()
         break;
 
     default:
         console.log('Not a valid command')
 }
+
 
 
 function concertThis() {
@@ -57,6 +56,7 @@ function concertThis() {
     })
 }
 
+
 function movieThis() {
     let movie = ''
     if (input) movie = input
@@ -74,4 +74,25 @@ function movieThis() {
         console.log(`Plot: ${rd.Plot}`)
         console.log(`Actors: ${rd.Actors} \n`)
     })
+}
+
+
+function spotifyThisSong() {
+    let song = input
+
+    spotify.search({
+        type: 'track', 
+        query: song, 
+        limit: 1
+    }, (err, data) => {
+        if (err) return console.log(err)
+        console.log(JSON.stringify(data, null, 2))
+
+        console.log(`Preview Link: ${data.tracks.items[0]}`)
+    })
+}
+
+
+function doWhatItSays() {
+
 }
