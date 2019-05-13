@@ -78,17 +78,35 @@ function movieThis() {
 
 
 function spotifyThisSong() {
-    let song = input
+    let song = ''
+    if (input) song = input
+    else song = 'The Sign'
 
     spotify.search({
         type: 'track', 
         query: song, 
-        limit: 1
+        limit: 20
     }, (err, data) => {
         if (err) return console.log(err)
-        console.log(JSON.stringify(data, null, 2))
 
-        console.log(`Preview Link: ${data.tracks.items[0]}`)
+        if (song === 'The Sign') {
+            data.tracks.items.forEach( elem => {
+
+                // if no song is provided, the search will default to 'The Sign' by Ace of Base
+                if (elem.album.artists[0].name === 'Ace of Base' && elem.name === 'The Sign') {
+                    console.log(`\nArtist: ${elem.album.artists[0].name}`)
+                    console.log(`Song: ${elem.name}`)
+                    console.log(`Album: ${elem.album.name}`)
+                    console.log(`Preview Link: ${elem.external_urls.spotify} \n`)
+                }
+            })
+        } else {
+            // if a song is provided, search for that song
+            console.log(`\nArtist: ${data.tracks.items[0].album.artists[0].name}`)
+            console.log(`Song: ${data.tracks.items[0].name}`)
+            console.log(`Album: ${data.tracks.items[0].album.name}`)
+            console.log(`Preview Link: ${data.tracks.items[0].external_urls.spotify} \n`)
+        }
     })
 }
 
