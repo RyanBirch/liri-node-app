@@ -112,5 +112,18 @@ function spotifyThisSong() {
 
 
 function doWhatItSays() {
+    fs.readFile('random.txt', 'utf8', (err, data) => {
 
+        if (err) return console.log(err)
+
+        let dataArr = data.split(',')
+        command = dataArr[0]
+        input = dataArr[1]
+        if (input) input = input.substr(1, input.length - 2)
+
+        if (command === 'concert-this') concertThis()
+        else if (command === 'spotify-this-song') spotifyThisSong()
+        else if (command === 'movie-this') movieThis()
+        else console.log('\nNot a valid command \n')
+    })
 }
