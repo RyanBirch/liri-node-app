@@ -12,6 +12,7 @@ const spotify = new Spotify(keys.spotify)
 let command = process.argv[2]
 let input = process.argv.slice(3).join(' ')
 
+// we will search different apis based on command given by the user
 switch (command) {
 
     case 'concert-this':
@@ -35,9 +36,8 @@ switch (command) {
 }
 
 
-
+// search bands in town api for artist requested by the user
 function concertThis() {
-    // get artist from user input and plug it into the bands in town api
     let artist = input
     let concertQuery = `https://rest.bandsintown.com/artists/${artist}/events?app_id=codingbootcamp`
     axios.get(concertQuery).then( response => {
@@ -57,6 +57,7 @@ function concertThis() {
 }
 
 
+// search omdb api for movie requested by the user
 function movieThis() {
     let movie = ''
     if (input) movie = input
@@ -77,6 +78,7 @@ function movieThis() {
 }
 
 
+// search spotify api for song requested by the user
 function spotifyThisSong() {
     let song = ''
     if (input) song = input
@@ -111,6 +113,7 @@ function spotifyThisSong() {
 }
 
 
+// read random.txt file and execute command inside
 function doWhatItSays() {
     fs.readFile('random.txt', 'utf8', (err, data) => {
 
@@ -119,6 +122,7 @@ function doWhatItSays() {
         let dataArr = data.split(',')
         command = dataArr[0]
         input = dataArr[1]
+        // remove quotes from around input
         if (input) input = input.substr(1, input.length - 2)
 
         if (command === 'concert-this') concertThis()
