@@ -1,4 +1,4 @@
-# liri-node-app
+# LIRI Bot
 
 ## Overview
 This is a command line node.js app where the user can request data from different apis. You can request concert data from the bands in town api, movie data from the omdb api, or music data from the spotify node api. Commands can be taken in either directly through the command line, or through a text file.
